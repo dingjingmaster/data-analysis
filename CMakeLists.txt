@@ -23,9 +23,9 @@ add_definitions(
         -D PACKAGE_VERSION=\\"${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}\\")
 
 find_package (PkgConfig)
-find_package(Qt5 COMPONENTS Core Widgets WebEngineWidgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets WebEngineWidgets Xml REQUIRED)
 
-pkg_check_modules(QT5 REQUIRED Qt5Core Qt5Widgets Qt5WebEngineWidgets)
+pkg_check_modules(QT5 REQUIRED Qt5Core Qt5Widgets Qt5WebEngineWidgets Qt5Xml)
 
 cmake_host_system_information(RESULT OS QUERY OS_NAME)
 cmake_host_system_information(RESULT RELEASE QUERY OS_RELEASE)

@@ -4,12 +4,19 @@
 
 #include "web-view.h"
 
+#include <QTimer>
+#include <QDomDocument>
+#include <QTemporaryDir>
+#include <QFileSystemWatcher>
+
+
 class WebViewPrivate
 {
     Q_DECLARE_PUBLIC(WebView);
 public:
     explicit WebViewPrivate(WebView* q);
     ~WebViewPrivate();
+    void downloadHTML() const;
 
 private:
     WebView*                q_ptr = nullptr;
@@ -17,16 +24,31 @@ private:
 
     QString                 mUrl;
     QString                 mName;
+    QTemporaryDir           mTempDir;
+    QString                 mCurHtmlFile;
+    QDomDocument            mCurHtmlDoc;
+    QTimer*                 mCurHtmlFileTimer;
+    QMap<QString, QVariant> mKV;
 };
 
 WebViewPrivate::WebViewPrivate(WebView * q)
-    : q_ptr(q), mPage(new QWebEnginePage(q)), mUrl("")
+    : q_ptr(q), mPage(new QWebEnginePage(q)), mUrl(""), mCurHtmlFileTimer(new QTimer)
 {
+    mTempDir.setAutoRemove(true);
+    mCurHtmlFile = mTempDir.path() + "/index.html";
+    mCurHtmlFileTimer->setInterval(100);
 }
 
 WebViewPrivate::~WebViewPrivate()
 {
     delete mPage;
+    mTempDir.remove();
+}
+
+void WebViewPrivate::downloadHTML() const
+{
+    mPage->save(mCurHtmlFile, QWebEngineDownloadItem::SingleHtmlSaveFormat);
+    mCurHtmlFileTimer->start();
 }
 
 WebView::WebView(const WebView & other)
@@ -41,13 +63,18 @@ WebView::WebView(const QString& name, const QString& baseUrl, QWidget * parent)
     : QWebEngineView(parent), d_ptr(new WebViewPrivate(this))
 {
     Q_D(WebView);
+
     d->mUrl = baseUrl;
     d->mName = name;
     setPage(d->mPage);
-    d->mPage->setUrl(d->mUrl);
+    setContextMenuPolicy(Qt::NoContextMenu);
 
-    connect(d->mPage, &QWebEnginePage::loadFinished, this, [&] (bool res) {
-        if (res) {Q_EMIT pageLoadSucceed(QPrivateSignal());} else {Q_EMIT pageLoadFailed(QPrivateSignal());}
+    connect(d->mCurHtmlFileTimer, &QTimer::timeout, this, &WebView::onHtmlDownloaded);
+
+    connect(d->mPage, &QWebEnginePage::loadFinished, this, [d, this] (const bool res) ->void {
+        if (res) {
+            d->downloadHTML();
+        }
     });
 }
 
@@ -77,9 +104,54 @@ const QString & WebView::baseUrl() const
     return d->mUrl;
 }
 
-QWebEnginePage * WebView::page() const
+void WebView::run()
+{
+    Q_D(WebView);
+
+    d->mPage->setUrl(d->mUrl);
+}
+
+void WebView::rootParser(const QDomDocument& doc)
+{
+}
+
+void WebView::insertKeyValue(const QString& key, const QVariant& value)
+{
+    Q_D(WebView);
+
+    d->mKV[key] = value;
+}
+
+const QMap<QString, QVariant> & WebView::getKeyValue() const
 {
     Q_D(const WebView);
 
-    return d->mPage;
+    return d->mKV;
+}
+
+void WebView::onHtmlDownloaded()
+{
+    Q_D(WebView);
+
+    if (!QFile::exists(d->mCurHtmlFile)) { return; }
+    d->mCurHtmlFileTimer->stop();
+
+    QFile f(d->mCurHtmlFile);
+    if (!f.open(QIODevice::ReadOnly)) {
+        qInfo() << "Failed to open file" << d->mCurHtmlFile << " error: " << f.errorString();
+        return;
+    }
+    d->mCurHtmlDoc.setContent(&f);
+    f.close();
+
+    rootParser(d->mCurHtmlDoc);
+
+    qInfo() << "Done!";
+}
+
+const QString& WebView::getHTMLLocalFile() const
+{
+    Q_D(const WebView);
+
+    return d->mCurHtmlFile;
 }
