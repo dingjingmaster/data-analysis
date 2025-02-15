@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(data-analysis LANGUAGES CXX)
+project(data-analysis LANGUAGES C CXX)
 
 set(DEBUG ON)
 set(CMAKE_AUTOUIC ON)
@@ -46,3 +46,4 @@ MESSAGE(STATUS "Qt Version      : '${CUR_QT_VERSION}'")
 MESSAGE("")
 
 add_subdirectory(app)
+add_subdirectory(example)
