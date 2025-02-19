@@ -115,6 +115,7 @@ void WebView::run()
 
 void WebView::rootParser(html::Document& doc)
 {
+    qWarning() << "WebView::rootParser";
 }
 
 void WebView::insertKeyValue(const QString& key, const QVariant& value)

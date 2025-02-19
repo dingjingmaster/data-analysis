@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 EastMoney::EastMoney(QWidget * parent)
-    : WebView("EastMoney", "https://fund.eastmoney.com/", parent)
+    : WebView("EastMoney", "https://fund.eastmoney.com/fund.html", parent)
 {
 
 }
@@ -18,9 +18,23 @@ EastMoney::~EastMoney()
 
 void EastMoney::rootParser(html::Document& doc)
 {
-    qDebug() << "EastMoney::rootParser";
-
-    auto select = doc.find("aa");
+    const auto body = doc.find("body > div.mainFrame > #tableDiv > #oTable > tbody");
+    if (body.nodeNum() > 0) {
+        const auto body1 = body.nodeAt(0);
+        if (body1.valid()) {
+            const auto trs = body1.find("tr");
+            for (auto idx = 0; idx < trs.nodeNum(); ++idx) {
+                const auto tds = trs.nodeAt(idx).find("td");
+                if (tds.nodeNum() >= 14) {
+                    const QString code = tds.nodeAt(3).text().c_str();
+                    const QString name = QString::fromLatin1(tds.nodeAt(4).find("a").nodeAt(0).attribute("title").c_str());
+                    qInfo() << code
+                        << "\t" << name
+                    ;
+                }
+            }
+        }
+    }
 }
 
 #if 0
