@@ -22,6 +22,9 @@ add_definitions(
         -D G_LOG_DOMAIN=\\"${PROJECT_NAME}\\"
         -D PACKAGE_VERSION=\\"${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}\\")
 
+include_directories(${CMAKE_SOURCE_DIR}/app/)
+
+
 find_package (PkgConfig)
 find_package(Qt5 COMPONENTS Core Widgets WebEngineWidgets Xml REQUIRED)
 

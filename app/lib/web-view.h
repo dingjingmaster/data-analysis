@@ -4,8 +4,9 @@
 
 #ifndef data_analysis_WEB_VIEW_H
 #define data_analysis_WEB_VIEW_H
-#include <QDomDocument>
 #include <QWebEngineView>
+
+#include "html-parser/cxx/document.h"
 
 
 class WebViewPrivate;
@@ -27,7 +28,7 @@ public:
     void run();
 
     // 获取成功后，首先执行这个解析方法
-    virtual void rootParser(const QDomDocument& doc);
+    virtual void rootParser(html::Document& doc);
 
     // 临时保存解析到的内容
     void insertKeyValue(const QString& key, const QVariant& value);

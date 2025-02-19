@@ -16,6 +16,14 @@ EastMoney::~EastMoney()
 {
 }
 
+void EastMoney::rootParser(html::Document& doc)
+{
+    qDebug() << "EastMoney::rootParser";
+
+    auto select = doc.find("aa");
+}
+
+#if 0
 void EastMoney::rootParser(const QDomDocument& doc)
 {
     qDebug() << "EastMoney::rootParser: ";
@@ -24,7 +32,6 @@ void EastMoney::rootParser(const QDomDocument& doc)
     qInfo() << rootDOM.tagName();
     const auto table = rootDOM.elementsByTagName("body").at(0);
     qInfo() << table.toElement().tagName();
-#if 0
         qInfo() << "0";
     qInfo() << "root DOM: " << table.text();
     if (!table.isNull()) {
@@ -76,6 +83,6 @@ void EastMoney::rootParser(const QDomDocument& doc)
             }
         }
     }
-#endif
 }
+#endif
 

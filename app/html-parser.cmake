@@ -1,0 +1,44 @@
+file(GLOB GUMBO_C_SRC
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/tag.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/tag.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/util.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/util.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/utf8.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/utf8.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/gumbo.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/gumbo.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/error.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/error.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/parser.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/parser.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/vector.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/vector.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/char-ref.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/char-ref.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/tokenizer.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/tokenizer.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/attribute.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/attribute.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/string-piece.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/string-piece.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/string-buffer.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/string-buffer.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/insertion-mode.h
+)
+
+file(GLOB GUMBO_CXX_SRC
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/node.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/node.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/object.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/object.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/parser.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/parser.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/document.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/document.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/selector.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/selector.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/selection.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/selection.cc
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/query-util.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/cxx/query-util.cc
+)

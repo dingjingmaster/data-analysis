@@ -14,7 +14,7 @@ public:
     explicit EastMoney(QWidget *parent = nullptr);
     ~EastMoney() override;
 
-    void rootParser(const QDomDocument& doc) override;
+    void rootParser(html::Document& doc) override;
 };
 
 

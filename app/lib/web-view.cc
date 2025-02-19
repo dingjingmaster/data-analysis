@@ -7,7 +7,9 @@
 #include <QTimer>
 #include <QDomDocument>
 #include <QTemporaryDir>
-#include <QFileSystemWatcher>
+#include <macros/macros.h>
+
+#include "html-parser/cxx/document.h"
 
 
 class WebViewPrivate
@@ -24,9 +26,9 @@ private:
 
     QString                 mUrl;
     QString                 mName;
+    html::Document          mParser;
     QTemporaryDir           mTempDir;
     QString                 mCurHtmlFile;
-    QDomDocument            mCurHtmlDoc;
     QTimer*                 mCurHtmlFileTimer;
     QMap<QString, QVariant> mKV;
 };
@@ -111,13 +113,14 @@ void WebView::run()
     d->mPage->setUrl(d->mUrl);
 }
 
-void WebView::rootParser(const QDomDocument& doc)
+void WebView::rootParser(html::Document& doc)
 {
 }
 
 void WebView::insertKeyValue(const QString& key, const QVariant& value)
 {
     Q_D(WebView);
+    C_RETURN_IF_OK(key.isNull() || key.isEmpty());
 
     d->mKV[key] = value;
 }
@@ -141,10 +144,10 @@ void WebView::onHtmlDownloaded()
         qInfo() << "Failed to open file" << d->mCurHtmlFile << " error: " << f.errorString();
         return;
     }
-    d->mCurHtmlDoc.setContent(&f);
+    d->mParser.parse(f.readAll().toStdString());
     f.close();
 
-    rootParser(d->mCurHtmlDoc);
+    rootParser(d->mParser);
 
     qInfo() << "Done!";
 }
