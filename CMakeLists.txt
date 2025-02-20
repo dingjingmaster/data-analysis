@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions(
         -w -g
+        -D GUMBO_DEBUG
         -D QT_NO_KEYWORDS
         -D QT_MESSAGELOGCONTEXT
 

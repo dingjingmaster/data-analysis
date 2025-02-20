@@ -27,7 +27,7 @@ void EastMoney::rootParser(html::Document& doc)
                 const auto tds = trs.nodeAt(idx).find("td");
                 if (tds.nodeNum() >= 14) {
                     const QString code = tds.nodeAt(3).text().c_str();
-                    const QString name = QString::fromLatin1(tds.nodeAt(4).find("a").nodeAt(0).attribute("title").c_str());
+                    const QString name = tds.nodeAt(4).find("a").nodeAt(0).attribute("title").c_str();
                     qInfo() << code
                         << "\t" << name
                     ;
