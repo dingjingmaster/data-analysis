@@ -29,6 +29,7 @@ include_directories(${CMAKE_SOURCE_DIR}/app/)
 find_package (PkgConfig)
 find_package(Qt5 COMPONENTS Core Widgets WebEngineWidgets Xml REQUIRED)
 
+pkg_check_modules(CHARSET REQUIRED enca)
 pkg_check_modules(QT5 REQUIRED Qt5Core Qt5Widgets Qt5WebEngineWidgets Qt5Xml)
 
 cmake_host_system_information(RESULT OS QUERY OS_NAME)

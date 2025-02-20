@@ -13,6 +13,8 @@ file(GLOB GUMBO_C_SRC
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/parser.c
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/vector.h
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/vector.c
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/charset.h
+        ${CMAKE_SOURCE_DIR}/app/html-parser/c/charset.c
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/char-ref.h
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/char-ref.c
         ${CMAKE_SOURCE_DIR}/app/html-parser/c/tokenizer.h
