@@ -34,10 +34,9 @@ def line_format(l:str) ->str:
     ll = ll.strip('"')
     return ll
 
-def filter_this_month() -> list:
-    pass
-
-def print_result(tip: str, title: tuple, allData: list) ->None:
+def average_lately_xx_days(title: tuple, allData1: list, dayNum: int) -> None:
+    allData1.sort(key=lambda  x: int(x[0]), reverse=True)
+    allData = allData1[:dayNum]
     size = len(allData)
     days = reduce(lambda x, y : x if int(x[0]) > int(y[0]) else y, allData)[0]
     finValue = reduce(lambda x, y : float(x) + float(y[1]), allData, 0) / size
@@ -46,6 +45,27 @@ def print_result(tip: str, title: tuple, allData: list) ->None:
     lowValue = reduce(lambda x, y : float(x) + float(y[4]), allData, 0) / size
     jylValue = reduce(lambda x, y : float(x) + float(y[5]), allData, 0) / size
     zdfValue = reduce(lambda x, y : float(x) + float(y[6]), allData, 0) / size
+    print("{} - {}, 最近{}天平均值: ".format(allData[len(allData) - 1][0], allData[0][0], dayNum))
+    print("  {}: {}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}B, {}: {:.3f}%"
+          .format(title[0], days,
+                  title[1], finValue,
+                  title[2], staValue,
+                  title[3], higValue,
+                  title[4], lowValue,
+                  title[5], jylValue / 1000000000,
+                  title[6], zdfValue * 100))
+    pass
+
+def average_all_result(title: tuple, allData: list) ->None:
+    size = len(allData)
+    days = reduce(lambda x, y : x if int(x[0]) > int(y[0]) else y, allData)[0]
+    finValue = reduce(lambda x, y : float(x) + float(y[1]), allData, 0) / size
+    staValue = reduce(lambda x, y : float(x) + float(y[2]), allData, 0) / size
+    higValue = reduce(lambda x, y : float(x) + float(y[3]), allData, 0) / size
+    lowValue = reduce(lambda x, y : float(x) + float(y[4]), allData, 0) / size
+    jylValue = reduce(lambda x, y : float(x) + float(y[5]), allData, 0) / size
+    zdfValue = reduce(lambda x, y : float(x) + float(y[6]), allData, 0) / size
+    print("全量平均值: ")
     print("  {}: {}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}, {}: {:.3f}B, {}: {:.3f}%"
           .format(title[0], days,
                   title[1], finValue,
@@ -89,7 +109,21 @@ def main(sysArgs:list[str]) ->int:
         exit(1)
     title, allData = read_all_data(szHistory)
 
-    print_result("全量平均值", title, allData)
+    average_all_result(title, allData)
+
+    print("\n")
+
+    average_lately_xx_days(title, allData, 1)
+    average_lately_xx_days(title, allData, 2)
+    average_lately_xx_days(title, allData, 3)
+    average_lately_xx_days(title, allData, 4)
+    average_lately_xx_days(title, allData, 5)
+    average_lately_xx_days(title, allData, 10)
+    average_lately_xx_days(title, allData, 20)
+    average_lately_xx_days(title, allData, 30)
+    average_lately_xx_days(title, allData, 60)
+    average_lately_xx_days(title, allData, 90)
+    average_lately_xx_days(title, allData, 365)
 
     return 0
 
