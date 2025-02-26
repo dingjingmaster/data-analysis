@@ -4,3 +4,6 @@
 [submodule "app/html-parser"]
 	path = app/html-parser
 	url = https://github.com/dingjingmaster/html-parser.git
+[submodule "app/sqlite3"]
+	path = app/sqlite3
+	url = https://github.com/dingjingmaster/sqlite3-wrap.git
